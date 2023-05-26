@@ -38,7 +38,7 @@ def delete_states(state_id=None):
                  methods=['POST'])
 def add_state():
     '''Adding a new state in the storage'''
-    kwargs = request.json
+    kwargs = request.get_json()
     if not kwargs or type(kwargs) is not dict:
         return jsonify({'error': 'Not a JSON'}), 400
     if 'name' not in kwargs:
@@ -57,7 +57,7 @@ def update_state(state_id=None):
     if not state_id or not storage.get(State, state_id):
         abort(404)
 
-    kwargs = request.json
+    kwargs = request.get_json()
     if not kwargs:
         return jsonify({'error': 'Not a JSON'}), 400
     avoid_them = ['id', 'created_at', 'updated_at']
