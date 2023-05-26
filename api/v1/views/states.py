@@ -39,13 +39,14 @@ def delete_states(state_id=None):
 def add_state():
     '''Adding a new state in the storage'''
     kwargs = request.json
-    if not kwargs:
+    if not kwargs or type(kwargs) is not dict:
         return jsonify({'error': 'Not a JSON'}), 400
     if 'name' not in kwargs:
         return jsonify({'error': 'Missing name'}), 400
     s = State(kwargs)
     s.name = str(kwargs.get('name', None))
-    s.save()
+    storage.new(s)
+    storage.save()
     return jsonify(s.to_dict()), 201
 
 
