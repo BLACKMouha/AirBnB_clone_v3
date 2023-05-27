@@ -41,6 +41,7 @@ def delete_place(place_id=None):
                  methods=['POST'])
 def add_place(city_id=None):
     '''Adding a new place in the storage'''
+    from models.user import User
     c = storage.get(City, city_id)
     if not c:
         abort(404)
@@ -49,10 +50,13 @@ def add_place(city_id=None):
         return jsonify({'error': 'Not a JSON'}), 400
     if 'user_id' not in kwargs:
         return jsonify({'error': 'Missing user_id'}), 400
+    u = storage.get(User, kwargs.get('user_id', None))
+    if u is None:
+        abort(404)
     if 'name' not in kwargs:
         return jsonify({'error': 'Missing name'}), 400
-    kwargs['city_id'] = city_id
     p = Place(**kwargs)
+    p.city_id = city_id
     storage.new(p)
     storage.new(c)
     storage.save()
