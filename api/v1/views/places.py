@@ -5,6 +5,7 @@ from api.v1.views import app_views
 from models import storage
 from models.city import City
 from models.place import Place
+from models.amenity import Amenity
 
 
 @app_views.route('/cities/<city_id>/places', strict_slashes=False)
@@ -82,7 +83,7 @@ def update_place(place_id=None):
     return jsonify(p.to_dict()), 200
 
 
-@app.route('/places_search',
+@app_views.route('/places_search',
            strict_slashes=False,
            methods=['POST'])
 def places_search():
