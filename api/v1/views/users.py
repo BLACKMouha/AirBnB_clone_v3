@@ -44,12 +44,12 @@ def add_user():
         return jsonify({'error': 'Missing email'}), 400
     if 'password' not in kwargs:
         return jsonify({'error': 'Missing password'}), 400
-    u = User(kwargs)
+    u = User(**kwargs)
     u.email = kwargs.get('email', None)
     u.password = kwargs.get('password', None)
     storage.new(u)
     storage.save()
-    return jsonify(a.to_dict()), 201
+    return jsonify(u.to_dict()), 201
 
 
 @app_views.route('/users/<user_id>', strict_slashes=False,

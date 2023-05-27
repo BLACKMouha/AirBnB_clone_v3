@@ -42,7 +42,7 @@ def add_state():
         return jsonify({'error': 'Not a JSON'}), 400
     if 'name' not in kwargs:
         return jsonify({'error': 'Missing name'}), 400
-    s = State(kwargs)
+    s = State(**kwargs)
     s.name = str(kwargs.get('name', None))
     storage.new(s)
     storage.save()

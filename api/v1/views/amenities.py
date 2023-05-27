@@ -42,7 +42,7 @@ def add_amenity():
         return jsonify({'error': 'Not a JSON'}), 400
     if 'name' not in kwargs:
         return jsonify({'error': 'Missing name'}), 400
-    a = Amenity(kwargs)
+    a = Amenity(**kwargs)
     a.name = str(kwargs.get('name', None))
     storage.new(a)
     storage.save()

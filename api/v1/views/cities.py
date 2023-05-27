@@ -49,7 +49,7 @@ def add_city(state_id):
         return jsonify({'error': 'Not a JSON'}), 400
     if 'name' not in kwargs:
         return jsonify({'error': 'Missing name'}), 400
-    c = City(kwargs)
+    c = City(**kwargs)
     c.name = str(kwargs.get('name', None))
     c.state_id = state_id
     storage.new(c)
