@@ -84,8 +84,8 @@ def update_place(place_id=None):
 
 
 @app_views.route('/places_search',
-           strict_slashes=False,
-           methods=['POST'])
+                 strict_slashes=False,
+                 methods=['POST'])
 def places_search():
     '''Retrieves all places depending on the JSON body request'''
     rj = request.get_json()
@@ -94,7 +94,6 @@ def places_search():
     if rj:
         return jsonify([p.to_dict() for p in storage.all(Place).values()])
     all_places = []
-    if storage_t == 'db':
     if 'states' in rj and rj['states']:
         for s_id in rj['states']:
             s = storage.get(State, s_id)
