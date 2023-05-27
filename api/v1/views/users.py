@@ -62,7 +62,7 @@ def update_user(user_id=None):
     if not kwargs:
         return jsonify({'error': 'Not a JSON'}), 400
     avoid_them = ['id', 'created_at', 'updated_at', 'email']
-    u = storage.get(user, user_id)
+    u = storage.get(User, user_id)
     for k, v in kwargs.items():
         if k not in avoid_them:
             setattr(u, k, v)
