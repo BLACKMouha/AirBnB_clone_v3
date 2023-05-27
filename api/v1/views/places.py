@@ -109,8 +109,8 @@ def places_search():
     if 'amenities' in rj and rj['amenities']:
         places = storage.all(Place)
         for a_id in rj['amenities']:
-            for p in places:
-                a = storage.get(Amenity, a_id)
+            a = storage.get(Amenity, a_id)
+            for p in places.values():
                 if a in p.amenities:
                     all_places.append(p)
 
