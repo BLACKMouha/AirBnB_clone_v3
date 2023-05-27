@@ -39,10 +39,10 @@ def delete_place(place_id=None):
 
 @app_views.route('/cities/<city_id>/places', strict_slashes=False,
                  methods=['POST'])
-def add_place(city_id):
+def add_place(city_id=None):
     '''Adding a new place in the storage'''
     c = storage.get(City, city_id)
-    if not s:
+    if not c:
         abort(404)
     kwargs = request.get_json()
     if not kwargs or type(kwargs) is not dict:
