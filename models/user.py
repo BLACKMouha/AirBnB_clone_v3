@@ -33,5 +33,5 @@ class User(BaseModel, Base):
             passwd_bytes = kwargs['password'].encode()
             hash_algo = haslib.md5()
             hash_algo.update(passwd_bytes)
-            kwargs['password'] = hash_algo.digest
+            kwargs['password'] = hash_algo.digest()
         super().__init__(*args, **kwargs)
