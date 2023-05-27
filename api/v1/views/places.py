@@ -2,7 +2,7 @@
 '''places module'''
 from flask import jsonify, request, abort
 from api.v1.views import app_views
-from models import storage
+from models import storage, storage_t
 from models.city import City
 from models.place import Place
 from models.amenity import Amenity
@@ -94,23 +94,26 @@ def places_search():
     if rj:
         return jsonify([p.to_dict() for p in storage.all(Place).values()])
     all_places = []
-    if 'states' in rj and rj['states']:
-        for s_id in rj['states']:
-            s = storage.get(State, s_id)
-            for c in s.cities:
+    if storage_t == 'db':
+        if 'states' in rj and rj['states']:
+            for s_id in rj['states']:
+                s = storage.get(State, s_id)
+                for c in s.cities:
+                    for p in c.places:
+                        all_places.append(p)
+        if 'cities' in rj and rj['cities']:
+            for c_id in rj['cities']:
+                c = storage.get(City, c_id)
                 for p in c.places:
                     all_places.append(p)
-    if 'cities' in rj and rj['cities']:
-        for c_id in rj['cities']:
-            c = storage.get(City, c_id)
-            for p in c.places:
-                all_places.append(p)
-    if 'amenities' in rj and rj['amenities']:
-        places = storage.all(Places)
-        for a_id in rj['amenities']:
-            for p in places:
-                a = storage.get(Amenity, a_id)
-                if a in p.amenities:
-                    all_places.append(p)
+        if 'amenities' in rj and rj['amenities']:
+            places = storage.all(Place)
+            for a_id in rj['amenities']:
+                for p in places:
+                    a = storage.get(Amenity, a_id)
+                    if a in p.amenities:
+                        all_places.append(p)
+    else:
+        if 'states' in rj and rj['states']:
 
-    return jsonify(all_places)
+    return jsonify(set(all_places))
