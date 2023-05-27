@@ -20,6 +20,12 @@ class City(BaseModel, Base):
         state_id = ""
         name = ""
 
+        @property
+        def places(self):
+            '''Retrieves all places of the current city'''
+            all_objs = models.storage.all('Place')
+            return [p for p in all_objs.values() if p.city_id == self.id]
+
     def __init__(self, *args, **kwargs):
         """initializes city"""
         super().__init__(*args, **kwargs)
