@@ -45,6 +45,8 @@ def add_user():
     if 'password' not in kwargs:
         return jsonify({'error': 'Missing password'}), 400
     u = User(kwargs)
+    u.email = kwargs.get('email', None)
+    u.password = kwargs.get('password', None)
     storage.new(u)
     storage.save()
     return jsonify(a.to_dict()), 201
@@ -59,7 +61,7 @@ def update_user(user_id=None):
     kwargs = request.get_json()
     if not kwargs:
         return jsonify({'error': 'Not a JSON'}), 400
-    avoid_them = ['id', 'created_at', 'updated_at']
+    avoid_them = ['id', 'created_at', 'updated_at', 'email']
     u = storage.get(user, user_id)
     for k, v in kwargs.items():
         if k not in avoid_them:
