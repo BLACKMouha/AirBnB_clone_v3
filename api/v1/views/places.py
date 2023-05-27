@@ -51,8 +51,8 @@ def add_place(city_id=None):
         return jsonify({'error': 'Missing user_id'}), 400
     if 'name' not in kwargs:
         return jsonify({'error': 'Missing name'}), 400
+    kwargs['city_id'] = city_id
     p = Place(**kwargs)
-    p.city_id = city_id
     storage.new(p)
     storage.new(c)
     storage.save()
