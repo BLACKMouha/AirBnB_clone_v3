@@ -38,7 +38,7 @@ def delete_place_amenity(place_id=None, amenity_id=None):
     else:
         if a.id not in p.amenity_ids:
             abort(404)
-        p.amenity_ids.remove(a.id)
+        p.amenity_ids = [i for i in p.amenity_ids if i != a.id]
     storage.save()
     return {}, 200
 
@@ -51,7 +51,7 @@ def add_place_amenity(place_id=None, amenity_id=None):
     p = storage.get(Place, place_id)
     if not p:
         abort(404)
-    a = storage.get(Amenity, amenit_id)
+    a = storage.get(Amenity, amenity_id)
     if not a:
         abort(404)
     if storage_t == 'db':
