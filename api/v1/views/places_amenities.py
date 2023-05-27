@@ -20,7 +20,8 @@ def get_place_amenities(place_id=None):
     abort(404)
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', strict_slashes=False,
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+                 strict_slashes=False,
                  methods=['DELETE'])
 def delete_place_amenity(place_id=None, amenity_id=None):
     '''Deletes an amenity of a place'''
@@ -37,11 +38,13 @@ def delete_place_amenity(place_id=None, amenity_id=None):
     else:
         if a.id not in p.amenity_ids:
             abort(404)
+        p.amenity_ids.remove(a.id)
     storage.save()
     return {}, 200
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', strict_slashes=False,
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+                 strict_slashes=False,
                  methods=['POST'])
 def add_place_amenity(place_id=None, amenity_id=None):
     '''Links an amenity to a place in the storage'''
